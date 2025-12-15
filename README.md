@@ -1,0 +1,113 @@
+# CopilotKit <> Agent Spec Starter
+
+This is a starter template for building AI agents using Agent Spec and CopilotKit. It provides a modern Next.js application wired to a FastAPI backend that serves an Agent Spec agent (LangGraph runtime by default) with a sample weather tool.
+
+## Prerequisites
+
+- OpenAI-compatible API key (for the Agent Spec LLM)
+- Python 3.10+
+- uv
+- Node.js 20+
+- Any of the following package managers:
+  - pnpm (recommended)
+  - npm
+  - yarn
+  - bun
+
+> Note: This repository ignores lock files to avoid conflicts between different package managers. Each developer can generate a lock file locally with their preferred package manager.
+
+## Getting Started
+
+1. Install dependencies using your preferred package manager:
+```bash
+# Using pnpm (recommended)
+pnpm install
+
+# Using npm
+npm install
+
+# Using yarn
+yarn install
+
+# Using bun
+bun install
+```
+
+> Note: This automatically sets up the Python environment for the agent (via `postinstall`). If you encounter issues, you can run:
+>
+> ```bash
+> npm run install:agent
+> ```
+
+2. (Optional) Set up your LLM environment variables:
+
+Create a `.env` file inside the `agent` folder if you need to override defaults in the spec (`agent/src/specs/agent.json`):
+
+```
+OPENAI_API_KEY=sk-...your-api-key...
+OPENAI_BASE_URL=https://api.your-provider.com/v1   # optional
+OPENAI_MODEL=gpt-4o                               # optional
+```
+
+3. Start the development servers:
+```bash
+# Using pnpm
+pnpm dev
+
+# Using npm
+npm run dev
+
+# Using yarn
+yarn dev
+
+# Using bun
+bun run dev
+```
+
+This starts both the UI and the agent concurrently. The agent runs at `http://localhost:8000/`, and the UI runs at `http://localhost:3000`. The UI proxies requests to the agent (no extra env required by default).
+
+## Available Scripts
+You can run these with any package manager:
+- `dev` - Starts both UI and agent servers in development mode
+- `dev:debug` - Starts development servers with debug logging enabled
+- `dev:ui` - Starts only the Next.js UI server
+- `dev:agent` - Starts only the Agent Spec FastAPI server
+- `build` - Builds the Next.js application for production
+- `start` - Starts the production server
+- `lint` - Runs ESLint for code linting
+- `install:agent` - Installs Python dependencies for the agent
+
+## Documentation
+
+- UI entry points: `with-agent-spec/src/app/page.tsx`, `with-agent-spec/src/app/layout.tsx`
+- Backend entry point: `with-agent-spec/agent/src/main.py`
+- Agent Spec definition: `with-agent-spec/agent/src/specs/agent.json`
+
+## 📚 Documentation
+
+- CopilotKit Documentation: https://docs.copilotkit.ai
+- Next.js Documentation: https://nextjs.org/docs
+
+## Contributing
+
+Feel free to submit issues and enhancement requests! This starter is designed to be easily extensible.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Troubleshooting
+
+### Agent Connection Issues
+If you see "I'm having trouble connecting to my tools", make sure:
+1. The Agent Spec backend is running on port 8000
+2. The UI started successfully on port 3000
+3. If using a custom backend URL, set `NEXT_PUBLIC_COPILOTKIT_SERVER_URL`
+
+### Python Dependencies
+If you encounter Python import errors:
+```bash
+cd agent
+uv sync
+uv run src/main.py
+```
