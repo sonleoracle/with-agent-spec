@@ -18,7 +18,7 @@ def get_weather(location: str) -> Dict[str, Any]:
     Get the weather for a given location.
     """
     import time
-    time.sleep(1)
+    time.sleep(1)  # simulates real tool execution
     return {
         "temperature": 20,
         "conditions": "sunny",
@@ -71,25 +71,15 @@ setThemeColor_tool = ClientTool(
 )
 
 with_agentspec_agent = Agent(
-    name="human_in_the_loop_agent",
-    description="Task planner that collaborates with a human to approve execution steps.",
-    system_prompt=(
-        "You are a collaborative planning assistant. "
-        "When planning tasks use tools only, without any other messages. "
-        "IMPORTANT: "
-        "- Use the `generate_task_steps` tool to display the suggested steps to the user "
-        "- Do not call the `generate_task_steps` twice in a row, ever. "
-        "- Never repeat the plan, or send a message detailing steps "
-        "- If accepted, confirm the creation of the plan and the number of selected (enabled) steps only "
-        "- If not accepted, ask the user for more information, DO NOT use the `generate_task_steps` tool again "
-    ),
+    name="Agent Spec Agent",
+    description="A starter Agent that can call tools.",
+    system_prompt="You are a helpful assistant, named Specky, that has access to some tools.",
     llm_config=OpenAiCompatibleConfig(
         name="with-agentspec-agent",
         model_id=os.getenv("OPENAI_MODEL", "gpt-4o"),
         url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
     ),
     tools=[weather_tool, go_to_moon_tool, setThemeColor_tool],
-    # human_in_the_loop=True,
 )
 
 

@@ -49,6 +49,10 @@ OPENAI_BASE_URL=https://api.your-provider.com/v1   # optional
 OPENAI_MODEL=gpt-4o                               # optional
 ```
 
+The backend loads this `.env` automatically (via `python-dotenv`). You can also set:
+- `PORT` to change the FastAPI server port (defaults to `8000` in this template)
+- Any provider-specific variables your tools require
+
 3. Start the development servers:
 ```bash
 # Using pnpm
@@ -65,6 +69,15 @@ bun run dev
 ```
 
 This starts both the UI and the agent concurrently. The agent runs at `http://localhost:8000/`, and the UI runs at `http://localhost:3000`. The UI proxies requests to the agent (no extra env required by default).
+
+To run only the UI or only the backend:
+```bash
+# Only UI
+pnpm run dev:ui
+
+# Only backend
+pnpm run dev:agent
+```
 
 ## Available Scripts
 You can run these with any package manager:
